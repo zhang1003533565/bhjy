@@ -1,0 +1,70 @@
+# 编译输出目录
+/target/
+/dist/
+/build/
+/out/
+
+# 依赖目录
+/node_modules/
+/.pnp/
+.pnp.js
+
+# 日志文件
+/logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 本地环境变量文件
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE和编辑器文件
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+*.iml
+*.iws
+*.ipr
+
+# 测试覆盖率报告
+/coverage/
+
+# 生产构建文件
+/frontend/dist/
+/frontend/build/
+
+# Maven特定文件
+/backend/target/
+/backend/.mvn/wrapper/maven-wrapper.jar
+
+# Spring Boot特定文件
+/backend/.spring-boot-devtools.properties
+
+# 系统文件
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# 临时文件
+*.swp
+*.swo
+*~
+
+# 上传文件目录
+/uploads/
+/backend/src/main/resources/static/uploads/
+
+# 部署相关
+/docker-volumes/
+
+# 前端中的默认图片（可以手动添加，避免Git忽略）
+!/frontend/public/default-book-cover.jpg 
