@@ -1,39 +1,148 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+<template>
+    <div class="bg-library flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl overflow-hidden login-container flex">
+            <div class="left-panel w-1/2 bg-purple-800 text-white p-8 flex items-center justify-center">
+                <svg class="logo-motto-svg" viewBox="0 0 200 200">
+                    <path id="motto-path-top" fill="none" stroke="none"
+                          d="M 50,100 A 50,50 0 0 1 150,100"/>
+                    <path id="motto-path-bottom" fill="none" stroke="none"
+                      d="M 150,100 A 50,50 0 0 1 50,100"/>
+
+                    <image :href="logoImage"
+                           x="50" y="50" width="100" height="100"
+                           clip-path="circle(50px at 100px 100px)"/> <text class="motto-text">
+                        <textPath href="#motto-path-top" startOffset="50%" text-anchor="middle">
+                            艰苦朴实
+                        </textPath>
+                    </text>
+
+                    <text class="motto-text">
+                        <textPath href="#motto-path-bottom" startOffset="50%" text-anchor="middle">
+                             勤奋进取
+                        </textPath>
+                    </text>
+                </svg>
+            </div>
+
+            <div class="right-panel w-1/2 p-8">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">图书馆用户登录</h2>
+                    <p class="text-gray-600 mt-1">Welcome to login</p>
+                </div>
+
+                <form @submit.prevent="handleLogin">
+                    <div class="mb-4">
+                        <label for="account" class="block text-gray-700 text-sm font-bold mb-2">
+                            账号/用户名
+                        </label>
+                        <input type="text" id="account" v-model="account" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="请输入您的账号/用户名">
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">
+                            密码
+                        </label>
+                        <input type="password" id="password" v-model="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" placeholder="请输入您的密码">
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <button type="submit" class="bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+                            登录
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+// 从 src/assets/login 导入校徽图片文件
+import logoImage from '@/assets/login/logo.png'; // 假设校徽图片放在 src/assets/login/logo.png
+// 从 src/assets/login 导入背景图片文件
+import backgroundImage from '@/assets/login/background.jpg'; // 假设背景图片放在 src/assets/login/background.jpg
+
+export default {
+    name: 'LoginPage', // 组件名称
+    data() {
+        return {
+            account: '', // 用于存储账号输入框的值
+            password: '', // 用于存储密码输入框的值
+            // 将导入的图片路径存储在 data 中
+            logoImage: logoImage,
+            backgroundImage: backgroundImage
+        };
+    },
+    methods: {
+        handleLogin() {
+            // 这里处理登录逻辑
+            console.log('账号:', this.account);
+            console.log('密码:', this.password);
+
+            // TODO: 在这里调用后端 API 进行身份验证
+            // TODO: 根据后端返回结果进行页面跳转或显示错误信息
+        }
+    }
+};
+</script>
+
+<style scoped>
+/* 可以根据需要添加自定义样式 */
+.bg-library {
+    /* 从 src/assets/login 中引用背景图片 */
+    background-image: url('~@/assets/login/background.jpg');
+    background-size: cover;
+    background-position: center;
 }
 
-body {
-  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  font-size: 14px;
-  background-color: #f5f7fa;
+/* 调整左右分栏在小屏幕下的布局 */
+@media (max-width: 640px) {
+    .login-container {
+        flex-direction: column; /* 在小屏幕下堆叠 */
+    }
+    .left-panel, .right-panel {
+        width: 100%; /* 小屏幕下宽度占满 */
+    }
+    .left-panel {
+        padding-bottom: 1rem; /* 增加底部间距 */
+    }
+    /* SVG 在小屏幕下可能需要调整大小或布局 */
+    .logo-motto-svg {
+        width: 150px; /* 调整小屏幕下 SVG 大小 */
+        height: 150px;
+    }
 }
 
-a {
-  color: #409eff;
-  text-decoration: none;
+/* 左侧面板样式 */
+.left-panel {
+    /* 使用 Flexbox 使内容垂直居中 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 注意：这里不再是 flex-direction: column，因为 SVG 内部自己布局 */
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+/* SVG 容器样式 */
+.logo-motto-svg {
+    overflow: visible; /* 确保文字不会被裁剪 */
+    /* 保持宽高比 */
+    display: block; /* 避免底部空白 */
+    margin: 0 auto; /* 居中 */
+    width: 200px; /* 默认桌面端 SVG 大小 */
+    height: 200px;
 }
 
-.page-title {
-  font-size: 24px;
-  margin-bottom: 20px;
-  font-weight: 600;
-  color: #303133;
+/* 校训文字样式 */
+.motto-text {
+    font-size: 14px; /* 调整字体大小 */
+    fill: white; /* 文字颜色 */
+    font-weight: bold; /* 字体加粗 */
+    /* 其他字体样式如 font-family 可以在这里设置 */
 }
 
-.card {
-  background: #fff;
-  border-radius: 4px;
-  padding: 20px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-} 
+/* 隐藏 SVG 路径本身 */
+.logo-motto-svg path {
+    stroke: none;
+    fill: none;
+}
+</style>
