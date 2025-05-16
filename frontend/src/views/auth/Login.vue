@@ -1,184 +1,81 @@
 <template>
   <div class="login-container">
-    <el-card class="login-card">
-      <template #header>
-        <div class="card-header">
-          <h2>登录图书馆系统</h2>
-        </div>
-      </template>
-      
-      <el-form 
-        :model="loginForm" 
-        :rules="rules" 
-        ref="loginFormRef" 
-        label-width="0" 
-        class="login-form"
-      >
-        <el-form-item prop="username">
-          <el-input 
-            v-model="loginForm.username" 
-            placeholder="用户名" 
-            prefix-icon="User"
-          />
-        </el-form-item>
-        
-        <el-form-item prop="password">
-          <el-input 
-            v-model="loginForm.password" 
-            type="password" 
-            placeholder="密码" 
-            prefix-icon="Lock"
-            show-password
-            @keyup.enter="handleLogin"
-          />
-        </el-form-item>
-        
-        <el-form-item>
-          <el-button 
-            type="primary" 
-            :loading="loading" 
-            @click="handleLogin" 
-            class="login-button"
-          >
-            登录
-          </el-button>
-        </el-form-item>
-        
-        <div class="form-footer">
-          <router-link to="/register" class="register-link">
-            没有账号？立即注册
-          </router-link>
-        </div>
-      </el-form>
-    </el-card>
+    <h2>用户登录</h2>
+    <form @submit.prevent="handleLogin">
+      <div class="form-group">
+        <label for="username">用户名:</label>
+        <input v-model="username" type="text" id="username" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password">密码:</label>
+        <input v-model="password" type="password" id="password" required />
+      </div>
+
+      <button type="submit">登录</button>
+    </form>
   </div>
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { User, Lock } from '@element-plus/icons-vue'
-import axios from 'axios'
-
 export default {
-  name: 'Login',
-  components: {
-    User,
-    Lock
-  },
-  setup() {
-    const loginFormRef = ref(null)
-    const router = useRouter()
-    const route = useRoute()
-    const loading = ref(false)
-    
-    const loginForm = reactive({
-      username: '',
-      password: ''
-    })
-    
-    const rules = {
-      username: [
-        { required: true, message: '请输入用户名', trigger: 'blur' },
-        { min: 3, max: 20, message: '长度应在3到20个字符', trigger: 'blur' }
-      ],
-      password: [
-        { required: true, message: '请输入密码', trigger: 'blur' },
-        { min: 6, message: '密码长度不能少于6个字符', trigger: 'blur' }
-      ]
-    }
-    
-    const handleLogin = async () => {
-      if (!loginFormRef.value) return
-      
-      await loginFormRef.value.validate(async (valid) => {
-        if (valid) {
-          loading.value = true
-          try {
-            const response = await axios.post('/api/auth/login', {
-              username: loginForm.username,
-              password: loginForm.password
-            })
-            
-            const { token, user } = response.data
-            
-            // 保存令牌和用户信息到本地存储
-            localStorage.setItem('token', token)
-            localStorage.setItem('user', JSON.stringify(user))
-            
-            // 配置axios默认请求头
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-            
-            ElMessage.success('登录成功')
-            
-            // 如果有重定向URL，则跳转至该URL，否则跳转至首页
-            const redirectPath = route.query.redirect || '/'
-            router.push(redirectPath)
-          } catch (error) {
-            console.error('登录失败:', error)
-            ElMessage.error(error.response?.data?.message || '用户名或密码错误')
-          } finally {
-            loading.value = false
-          }
-        }
-      })
-    }
-    
+  name: "Login",
+  data() {
     return {
-      loginFormRef,
-      loginForm,
-      rules,
-      loading,
-      handleLogin
+      username: "",
+      password: ""
+    };
+  },
+  methods: {
+    handleLogin() {
+      if (this.username === "admin" && this.password === "123456") {
+        this.$router.push({ name: "Home" });
+      } else {
+        alert("用户名或密码错误");
+      }
     }
   }
-}
+};
 </script>
 
 <style scoped>
 .login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 120px);
+  width: 300px;
+  margin: 150px auto;
   padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
 }
 
-.login-card {
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
   width: 100%;
-  max-width: 400px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
-.card-header {
-  text-align: center;
-}
-
-.card-header h2 {
-  margin: 0;
-  font-size: 24px;
-  color: #303133;
-}
-
-.login-form {
-  margin-top: 20px;
-}
-
-.login-button {
+button {
   width: 100%;
+  padding: 10px;
+  background-color:rgb(219, 69, 52);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
 }
 
-.form-footer {
-  margin-top: 20px;
-  text-align: center;
+button:hover {
+  background-color: #2980b9;
 }
-
-.register-link {
-  color: #409EFF;
-  text-decoration: none;
-}
-
-.register-link:hover {
-  text-decoration: underline;
-}
-</style> 
+</style>
