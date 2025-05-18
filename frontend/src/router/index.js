@@ -1,11 +1,22 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "@/views/auth/Login.vue";
 import Home from "@/views/Home.vue";
+import SmartQuestionBank from "@/views/SmartQuestionBank/SmartQuestionBank.vue";
+import StudyPlanner from "@/views/StudyPlanner/StudyPlanner.vue";
+import LearningAssistant from "@/views/LearningAssistant/LearningAssistant.vue";
+import BookCategories from "@/views/BookCategories/BookCategories.vue";
+import MyBookshelf from "@/views/MyBookshelf/MyBookshelf.vue";
+import UserProfile from "@/views/UserProfile/UserProfile.vue";
+import Summary from "@/views/Summary/Summary.vue";
+import CampusLectures from "@/views/CampusLectures/CampusLectures.vue";
+import ActivityCenter from "@/views/ActivityCenter/ActivityCenter.vue";
+import Journals from "@/views/Journals/Journals.vue";
+import NewStudentGuide from "@/views/NewStudentGuide/NewStudentGuide.vue";
 
 const routes = [
   {
     path: "/",
-    redirect: "/auth/login"
+    redirect: "/home"
   },
   {
     path: "/auth/login",
@@ -17,6 +28,72 @@ const routes = [
     name: "Home",
     component: Home,
     meta: { requiresAuth: true }  // 标记需要认证
+  },
+  {
+    path: "/book-category",
+    name: "BookCategories",
+    component: BookCategories,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/smart-question-bank",
+    name: "SmartQuestionBank",
+    component: SmartQuestionBank,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/study-planner",
+    name: "StudyPlanner",
+    component: StudyPlanner,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/learning-assistant",
+    name: "LearningAssistant",
+    component: LearningAssistant,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/my-bookshelf",
+    name: "MyBookshelf",
+    component: MyBookshelf,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/profile",
+    name: "UserProfile",
+    component: UserProfile,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/summary",
+    name: "Summary",
+    component: Summary,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/campus-lectures",
+    name: "CampusLectures",
+    component: CampusLectures,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/activity-center",
+    name: "ActivityCenter",
+    component: ActivityCenter,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/journals",
+    name: "Journals",
+    component: Journals,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/new-student-guide",
+    name: "NewStudentGuide",
+    component: NewStudentGuide,
+    meta: { requiresAuth: true }
   }
 ];
 

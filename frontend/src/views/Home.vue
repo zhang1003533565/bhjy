@@ -2,30 +2,8 @@
 
 <template>
   <div class="min-h-screen bg-gray-50">
-    <!-- 顶部导航栏 -->
-    <header class="bg-white shadow-sm">
-      <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-        <div class="flex items-center">
-          <i class="fas fa-book-open text-blue-600 text-3xl mr-3"></i>
-          <h1 class="text-2xl font-bold text-gray-800">智慧图书馆</h1>
-        </div>
-        <nav class="hidden md:flex space-x-8">
-          <a href="#" class="text-gray-700 hover:text-blue-600 cursor-pointer">首页</a>
-          <a href="#" class="text-gray-700 hover:text-blue-600 cursor-pointer">分类</a>
-          <a href="#" class="text-gray-700 hover:text-blue-600 cursor-pointer">排行榜</a>
-          <a href="#" class="text-gray-700 hover:text-blue-600 cursor-pointer">学习计划</a>
-          <a href="#" class="text-gray-700 hover:text-blue-600 cursor-pointer">我的书架</a>
-        </nav>
-        <div class="flex items-center space-x-4">
-          <button class="text-gray-700 hover:text-blue-600 cursor-pointer">
-            <i class="fas fa-bell text-xl"></i>
-          </button>
-          <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center cursor-pointer">
-            <i class="fas fa-user text-blue-600"></i>
-          </div>
-        </div>
-      </div>
-    </header>
+    <!-- 使用Header组件 -->
+    <Header />
 
     <!-- 主要内容区域 -->
     <main class="container mx-auto px-4 py-8">
@@ -270,6 +248,7 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
+import Header from '../components/Header.vue';
 
 // 搜索相关
 const searchQuery = ref('');
