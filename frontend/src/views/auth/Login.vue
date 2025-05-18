@@ -56,9 +56,14 @@
 import { login } from '@/api/auth'  // 导入登录接口
 import logoImage from '@/assets/login/logo.png'
 import backgroundImage from '@/assets/login/background.jpg'
+import { useRouter } from 'vue-router'  // 导入路由
 
 export default {
     name: 'LoginPage',
+    setup() {
+        const router = useRouter()
+        return { router }
+    },
     data() {
         return {
             account: '',
@@ -108,15 +113,19 @@ export default {
                         localStorage.setItem('rememberMe', 'true');
                     }
 
-                    // TODO: 这里可以添加登录成功后的路由跳转
-                    // this.$router.push('/');
+                    // 登录成功后跳转到首页
+                    this.router.push('/home');
                 } else {
                     console.log('登录失败:', response.message);
+                    // 可以添加提示信息
+                    alert(response.message || '登录失败');
                 }
             } catch (error) {
                 // 打印错误信息
                 console.error('登录请求失败:', error);
                 console.error('错误详情:', error.response?.data || error.message);
+                // 显示错误提示
+                alert(error.response?.data?.message || '登录失败，请稍后重试');
             }
         }
     }
