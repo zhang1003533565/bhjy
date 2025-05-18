@@ -5,10 +5,39 @@
 /out/
 
 # 前端依赖目录
-/frontend/node_modules/
-/node_modules/
-/.pnp/
+node_modules
+.pnp
 .pnp.js
+
+# 前端构建和缓存
+/frontend/dist/
+/frontend/build/
+/.next/
+.nuxt/
+.cache/
+.parcel-cache/
+.webpack/
+.vite/
+
+# 前端包管理器锁定文件（根据需要取消注释）
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# 前端测试
+/coverage/
+/.nyc_output/
+/cypress/videos/
+/cypress/screenshots/
+
+# 其他前端工具生成的文件
+.eslintcache
+.stylelintcache
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
+*.js.map
 
 # 日志文件
 /logs/
@@ -28,13 +57,6 @@ yarn-error.log*
 *.iml
 *.iws
 *.ipr
-
-# 测试覆盖率报告
-/coverage/
-
-# 前端构建文件
-/frontend/dist/
-/frontend/build/
 
 # Maven特定文件
 /backend/target/
