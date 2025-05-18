@@ -53,43 +53,71 @@
 </template>
 
 <script>
-// 从 src/assets/login 导入校徽图片文件
-// 确保文件路径和文件名正确
-import logoImage from '@/assets/login/logo.png'; // 假设校徽图片放在 src/assets/login/logo.png
-// 从 src/assets/login 导入背景图片文件
-// 确保文件路径和文件名正确
-import backgroundImage from '@/assets/login/background.jpg'; // 假设背景图片放在 src/assets/login/background.jpg
+import { login } from '@/api/auth'  // 导入登录接口
+import logoImage from '@/assets/login/logo.png'
+import backgroundImage from '@/assets/login/background.jpg'
 
 export default {
-    name: 'LoginPage', // 组件名称
+    name: 'LoginPage',
     data() {
         return {
-            account: '', // 用于存储账号输入框的值
-            password: '', // 用于存储密码输入框的值
-            rememberMe: false, // 用于存储“记住我”复选框的状态
-            // 将导入的图片路径存储在 data 中
+            account: '',
+            password: '',
+            rememberMe: false,
             logoImage: logoImage,
-            // 将导入的背景图片路径存储在 data 中，用于 CSS 变量
             backgroundImageUrl: `url(${backgroundImage})`
         };
     },
     mounted() {
-        // 在组件挂载后，将背景图片 URL 设置为 CSS 变量
         document.documentElement.style.setProperty('--background-image-url', this.backgroundImageUrl);
     },
     beforeUnmount() {
-        // 在组件卸载前，移除设置的 CSS 变量，避免影响其他页面
         document.documentElement.style.removeProperty('--background-image-url');
     },
     methods: {
-        handleLogin() {
-            // 这里处理登录逻辑
-            console.log('账号:', this.account);
-            console.log('密码:', this.password);
-            console.log('记住我:', this.rememberMe); // 可以在这里获取“记住我”的状态
+        async handleLogin() {
+            // 打印请求参数
+            console.log('登录请求参数:', {
+                account: this.account,
+                password: this.password,
+                rememberMe: this.rememberMe
+            });
 
-            // TODO: 在这里调用后端 API 进行身份验证，并将 rememberMe 状态发送给后端
-            // TODO: 根据后端返回结果进行页面跳转或显示错误信息
+            try {
+                // 调用登录接口
+                const response = await login({
+                    account: this.account,
+                    password: this.password
+                });
+                
+                // 打印接口返回信息
+                console.log('登录接口返回:', response);
+
+                if (response.token) {
+                    // 登录成功
+                    console.log('登录成功');
+                    console.log('获取到的token:', response.token);
+                    console.log('用户信息:', response.user);
+                    
+                    // 存储token和用户信息
+                    localStorage.setItem('token', response.token);
+                    localStorage.setItem('user', JSON.stringify(response.user));
+                    
+                    // 如果需要记住登录状态
+                    if (this.rememberMe) {
+                        localStorage.setItem('rememberMe', 'true');
+                    }
+
+                    // TODO: 这里可以添加登录成功后的路由跳转
+                    // this.$router.push('/');
+                } else {
+                    console.log('登录失败:', response.message);
+                }
+            } catch (error) {
+                // 打印错误信息
+                console.error('登录请求失败:', error);
+                console.error('错误详情:', error.response?.data || error.message);
+            }
         }
     }
 };
