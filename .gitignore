@@ -9,6 +9,33 @@ node_modules
 .pnp
 .pnp.js
 
+# uni-app特定文件
+.DS_Store
+/unpackage/
+/dist/
+/uniCloud-aliyun/
+/uniCloud-tcb/
+.hbuilderx/
+.history/
+*.local
+.env.local
+.env.*.local
+uni_modules
+uni_modules/**/node_modules
+uni_modules/**/dist
+uni_modules/**/.git
+
+# 微信小程序特定文件
+/miniprogram/miniprogram_npm/
+/miniprogram/node_modules/
+miniprogram_dist
+miniprogram_dev
+/miniprogram/*.log
+project.private.config.json
+private.key
+private.key.old
+sitemap.json
+
 # 前端构建和缓存
 /frontend/dist/
 /frontend/build/
@@ -66,7 +93,6 @@ yarn-error.log*
 /backend/.spring-boot-devtools.properties
 
 # 系统文件
-.DS_Store
 Thumbs.db
 ehthumbs.db
 Desktop.ini
