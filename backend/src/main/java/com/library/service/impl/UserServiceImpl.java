@@ -5,10 +5,9 @@ import com.library.model.LoginResponse;
 import com.library.model.User;
 import com.library.repository.UserRepository;
 import com.library.service.UserService;
+import com.library.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -16,33 +15,31 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @Override
     public LoginResponse login(LoginRequest request) {
-        // 尝试通过用户名查找用户
-        Optional<User> userByUsername = userRepository.findByUsername(request.getAccount());
-        // 如果用户名未找到，尝试通过学号查找
-        Optional<User> user = userByUsername.isPresent() ? 
-            userByUsername : userRepository.findByStudentId(request.getAccount());
+        // 根据学号查找用户
+        User user = userRepository.findByStudentId(request.getStudentId())
+                .orElseThrow(() -> new RuntimeException("用户不存在"));
 
-        if (user.isEmpty()) {
-            return LoginResponse.builder()
-                    .message("用户不存在")
-                    .build();
-        }
-
-        // 直接比较密码
-        if (!user.get().getPassword().equals(request.getPassword())) {
+        // 验证密码
+        if (!user.getPassword().equals(request.getPassword())) {
             return LoginResponse.builder()
                     .message("密码错误")
                     .build();
         }
 
-        // TODO: 这里需要生成JWT token
-        String token = "JWT_TOKEN"; // 实际项目中需要替换为真实的JWT token生成逻辑
+        // 生成 token
+        String token = jwtUtil.generateToken(user.getStudentId());
 
+        // 返回登录成功响应
         return LoginResponse.builder()
                 .token(token)
-                .user(user.get())
+                .studentId(user.getStudentId())
+                .name(user.getRealName())
+                .role(user.getRole().getRoleName())
                 .message("登录成功")
                 .build();
     }

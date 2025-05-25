@@ -7,6 +7,8 @@ import lombok.Builder;
 @Builder
 public class LoginResponse {
     private String token;
-    private User user;
+    private String studentId;
+    private String name;
+    private String role;
     private String message;
 } 

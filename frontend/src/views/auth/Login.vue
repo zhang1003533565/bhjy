@@ -83,7 +83,7 @@ export default {
         async handleLogin() {
             // 打印请求参数
             console.log('登录请求参数:', {
-                account: this.account,
+                studentId: this.account,
                 password: this.password,
                 rememberMe: this.rememberMe
             });
@@ -91,8 +91,9 @@ export default {
             try {
                 // 调用登录接口
                 const response = await login({
-                    account: this.account,
-                    password: this.password
+                    studentId: this.account,
+                    password: this.password,
+                    rememberMe: this.rememberMe
                 });
                 
                 // 打印接口返回信息
